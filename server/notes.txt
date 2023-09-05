@@ -1,0 +1,8 @@
+steps to follow to create the backEnd
+1 - Create The Book Model
+2 - seed books
+3 - create page index books
+4 - create page show book
+5 - create new and create book 
+6 - edit and update book 
+7 - delete book 
