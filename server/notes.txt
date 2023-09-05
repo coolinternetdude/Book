@@ -6,3 +6,40 @@ steps to follow to create the backEnd
 5 - create new and create book 
 6 - edit and update book 
 7 - delete book 
+
+Schema 
+
+class User {
+    username: string; // Ayoub => 
+    password: string;
+    email: string;
+}
+
+class Book {
+    body: string,
+    name: string,
+    sales: number,
+    Reviews: [
+        ref: Schema.types.reviews,
+    ],
+    genre: enum["Sport","Histoire","Science", "Psychology"],
+    published: Date,
+    pages: number,
+    language: enum["English","French","Arabic"], 
+}
+
+class Author {
+    firstname: string,
+    lastname: string,
+    age: number,
+    Books : [
+        ref: Schema.types.books
+    ]
+}
+
+class Review {
+    description: string;
+    rating: number;
+    author: {ref: Schema.types.user};
+    date : Date;
+}
