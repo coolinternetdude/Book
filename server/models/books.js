@@ -1,5 +1,5 @@
 
-const mongoose = require("mongoose");
+import mongoose from 'mongoose'
 const Schema = mongoose.Schema;
 
 const bookSchema = new Schema({
@@ -15,10 +15,10 @@ const bookSchema = new Schema({
         type: Number,
         required: true
     },
-    reviews: [{
-        type: Schema.Types.ObjectId,
-        ref: "Review"
-    }],
+    // reviews: [{
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Review"
+    // }],
     genre: {
         type: String,
         required: true,
@@ -35,4 +35,4 @@ const bookSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model("Book", bookSchema);
+export const Book = mongoose.model("Book", bookSchema);
