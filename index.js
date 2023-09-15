@@ -19,7 +19,7 @@ app.set("view engine", "ejs");
 
 // Book Routes:
 app.route('/api/books').get(getAllBooks);
-app.route('/api/new').get(renderNewForm).post(createBook);
+app.route('/api/books/new').get(renderNewForm).post(createBook);
 
 
 app.listen(port, () => {

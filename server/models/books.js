@@ -36,3 +36,5 @@ const bookSchema = new Schema({
 });
 
 export const Book = mongoose.model("Book", bookSchema);
+export const bookGenre = Book.schema.path("genre").enumValues;
+export const bookLanguage = Book.schema.path("language").enumValues;

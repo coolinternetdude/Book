@@ -1,5 +1,5 @@
 
-import { Book } from '../models/books.js';
+import { Book, bookGenre, bookLanguage } from '../models/books.js';
 
 export const getAllBooks = async (req, res) => {
     const books = await Book.find();
@@ -7,13 +7,11 @@ export const getAllBooks = async (req, res) => {
 }
 
 export const renderNewForm = (req, res) => {
-    const bookGenreEnums = Book.schema.path("genre").enumValues;
-    const bookLanguageEnums = Book.schema.path("language").enumValues;
-    res.render("books/new", { bookGenreEnums, bookLanguageEnums });
+    res.render("books/new", { bookGenre, bookLanguage });
 }
 
 export const createBook = async (req, res) => {
     const book = new Book(req.body.book);
     await book.save();
-    res.send("Hi");
+    res.redirect('/api/books');
 }
