@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import { getAllBooks, renderNewForm, createBook, showBook, updateBook, renderEditForm } from "./server/controllers/books.js";
+import { getAllBooks, renderNewForm, createBook, showBook, updateBook, deleteBook, renderEditForm } from "./server/controllers/books.js";
 import methodOverride from 'method-override';
 
 
@@ -24,7 +24,7 @@ app.route('/api/books').get(getAllBooks);
 app.route('/api/books/new').get(renderNewForm).post(createBook);
 app.route('/api/books/:id').get(showBook);
 app.route('/api/books/:id/edit').get(renderEditForm);
-app.route('/api/books/:id').put(updateBook);
+app.route('/api/books/:id').put(updateBook).delete(deleteBook);
 
 
 app.listen(port, () => {

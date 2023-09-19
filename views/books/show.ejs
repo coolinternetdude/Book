@@ -12,5 +12,12 @@
     <div><b>Sales : </b> <%= book.sales %></div>
     <div><b>Genre : </b> <%= book.genre %></div>
     <div><b>Language : </b> <%= book.language %></div>
+    <div>
+      <a href="/api/books/<%= book.id %>/edit">Edit</a>
+      <form action="/api/books/<%= book.id %>?_method=DELETE" method="post">
+        <button type="submit">Delete</button>
+      </form>
+      <a href="/api/books/">All books</a>
+    </div>
   </body>
 </html>

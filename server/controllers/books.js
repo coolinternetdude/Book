@@ -12,7 +12,6 @@ export const renderNewForm = (req, res) => {
 
 export const createBook = async (req, res) => {
     const book = new Book(req.body.book);
-    console.log(book);
     await book.save();
     res.redirect('/api/books');
 }
@@ -33,4 +32,10 @@ export const updateBook = async (req, res) => {
     const id = req.params.id;
     await Book.findByIdAndUpdate(id, req.body.book);
     res.redirect(`/api/books/${id}`);
+}
+
+export const deleteBook = async (req, res) => {
+    const id = req.params.id;
+    await Book.findByIdAndDelete(id);
+    res.redirect("/api/books");
 }
