@@ -8,7 +8,11 @@
   <body>
     <ul>
       <% for(let book of books) { %>
-        <li><b><%= book.name %> </b> - <%=book.sales%></li>
+      <li>
+        <a href="/api/books/<%=book._id %>"
+          ><b><%= book.name %> </b> - <%=book.sales%>
+        </a>
+      </li>
       <% } %>
     </ul>
   </body>
