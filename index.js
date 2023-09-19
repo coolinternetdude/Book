@@ -23,7 +23,8 @@ app.set("view engine", "ejs");
 app.route('/api/books').get(getAllBooks);
 app.route('/api/books/new').get(renderNewForm).post(createBook);
 app.route('/api/books/:id').get(showBook);
-app.route('/api/books/:id/edit').get(renderEditForm).put(updateBook);
+app.route('/api/books/:id/edit').get(renderEditForm);
+app.route('/api/books/:id').put(updateBook);
 
 
 app.listen(port, () => {

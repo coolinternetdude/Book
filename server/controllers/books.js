@@ -30,7 +30,7 @@ export const renderEditForm = async (req, res) => {
 }
 
 export const updateBook = async (req, res) => {
-    const id = req.param.id;
+    const id = req.params.id;
     await Book.findByIdAndUpdate(id, req.body.book);
     res.redirect(`/api/books/${id}`);
 }
