@@ -23,7 +23,7 @@
     </div>
     <div>
       <label for="published">Published:</label>
-      <input type="date" value="<%= foundBook.published.toLocaleDateString() %>" name="book[published]" id="published" required />
+      <input type="date" value="<%= new Date(foundBook.published).toISOString().split('T')[0] %>" name="book[published]" id="published" required />
     </div>
     <div>
       <label for="language">Language:</label>
