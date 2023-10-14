@@ -4,6 +4,7 @@ import { getAllBooks, renderNewForm, createBook, showBook, updateBook, deleteBoo
 import methodOverride from 'method-override';
 import path from "path";
 import { fileURLToPath } from "url";
+import { catchAsyncErrors, ExpressError } from "./utils/expressError.js";
 
 
 const url = "mongodb://127.0.0.1:27017/booktest";
@@ -21,16 +22,29 @@ db.once("open", () => console.log("Connected to database"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 // Book Routes:
-app.route('/api/books').get(getAllBooks);
-app.route('/api/books/new').get(renderNewForm).post(createBook);
-app.route('/api/books/:id').get(showBook).put(updateBook).delete(deleteBook);
-app.route('/api/books/:id/edit').get(renderEditForm);
+app.route('/api/books')
+    .get(catchAsyncErrors(getAllBooks));
+app.route('/api/books/new')
+    .get(catchAsyncErrors(renderNewForm))
+    .post(catchAsyncErrors(createBook));
+app.route('/api/books/:id')
+    .get(catchAsyncErrors(showBook))
+    .put(catchAsyncErrors(updateBook))
+    .delete(catchAsyncErrors(deleteBook));
+app.route('/api/books/:id/edit')
+    .get(catchAsyncErrors(renderEditForm));
 
+app.use((err, req, res, next) => {
+    const { statusCode = 500 } = err;
+    if (!err.message) err.message = "ERROR ! Something went wrong with the application";
+    res.status(statusCode).render('books/error', { err });
+})
 
 app.listen(port, () => {
     console.log("Listening on port 8080!");
