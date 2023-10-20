@@ -1,39 +1,56 @@
-<div>
-  <form action="/api/books/<%= foundBook._id %>?_method=PUT" method="POST">
-    <div>
-      <label for="name">Name:</label>
-      <input type="text" id="name" value="<%= foundBook.name %>" name="book[name]" placeholder="Name" required />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/css/output.css" rel="stylesheet" />
+    <title>Edit Book</title>
+  </head>
+  <body>
+    
+    <div class="max-w-screen-sm mx-auto py-10">
+      <h2 class="mb-10 text-center text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white">Edit Book</h2>
+      <form action="/api/books/<%= foundBook._id %>?_method=PUT" method="POST">
+        <div class="mb-3">
+          <label for="name" class="label">Name:</label>
+          <input class="input" type="text" id="name" value="<%= foundBook.name %>" name="book[name]" placeholder="Name" required />
+        </div>
+        <div class="mb-3">
+          <label for="body" class="label">Body:</label>
+          <textarea class="input" id="body" name="book[body]" placeholder="Body" rows="6" required><%= foundBook.body%></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="sales" class="label">Sales:</label>
+          <input class="input" type="number" name="book[sales]" value="<%=foundBook.sales %>" id="sales" value="0" min="0" step="1" required />
+        </div>
+        <div class="mb-3">
+          <label for="genre" class="label">Genre:</label>
+          <select class="input" name="book[genre]" id="genre" required>
+            <% for(genre of bookGenre) { %>
+            <option value="<%= genre %>" <%= genre === foundBook.genre ? "selected" : "" %> >
+              <%= genre %></option>
+            <% } %>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="published" class="label">Published:</label>
+          <input class="input" type="date" value="<%= new Date(foundBook.published).toISOString().split('T')[0] %>" name="book[published]" id="published" required />
+        </div>
+        <div class="mb-3">
+          <label for="language" class="label">Language:</label>
+          <select class="input" name="book[language]" id="language" required>
+            <% for(language of bookLanguage) { %>
+            <option value="<%= language %>" <%= language === foundBook.language ? "selected" : "" %>>
+              <%= language %></option>
+            <% } %>
+          </select>
+        </div>
+        <div class="mt-5">
+          <button class="btn blue-btn" type="submit">Edit Book</button>
+          <a class="btn yellow-btn" href="/api/books">Cancel</a>
+        </div>
+      </form>
     </div>
-    <div>
-      <label for="body">Body:</label>
-      <textarea id="body" name="book[body]" placeholder="Body" rows="10" required> <%= foundBook.body%> </textarea>
-    </div>
-    <div>
-      <label for="sales">Sales:</label>
-      <input type="number" name="book[sales]" value="<%=foundBook.sales %>" id="sales" value="0" min="0" step="1" required />
-    </div>
-    <div>
-      <label for="genre">Genre:</label>
-      <select name="book[genre]" id="genre" required>
-        <% for(genre of bookGenre) { %>
-        <option value="<%= genre %>" <%= genre === foundBook.genre ? "selected" : "" %> >
-          <%= genre %></option>
-        <% } %>
-      </select>
-    </div>
-    <div>
-      <label for="published">Published:</label>
-      <input type="date" value="<%= new Date(foundBook.published).toISOString().split('T')[0] %>" name="book[published]" id="published" required />
-    </div>
-    <div>
-      <label for="language">Language:</label>
-      <select name="book[language]" id="language" required>
-        <% for(language of bookLanguage) { %>
-        <option value="<%= language %>" <%= language === foundBook.language ? "selected" : "" %>>
-          <%= language %></option>
-        <% } %>
-      </select>
-    </div>
-    <button type="submit">Edit Book</button>
-  </form>
-</div>
+
+  </body>
+</html>
