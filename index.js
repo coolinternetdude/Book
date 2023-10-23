@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import ejsMate from "ejs-mate";
 import { getAllBooks, renderNewForm, createBook, showBook, updateBook, deleteBook, renderEditForm } from "./server/controllers/books.js";
 import methodOverride from 'method-override';
 import path from "path";
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
