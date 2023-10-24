@@ -1,4 +1,7 @@
-<div>
-  <h2>Something Went Wrong</h2>
-  <p><%=err.message %></p>
+<% layout('./layouts//boilerplate') -%>
+<div class="max-w-screen-sm mx-auto py-10 px-5">
+  <h2 class="text-center text-3xl font-extrabold mb-5 py-3">Error message:</h2>
+  <div class="p-4 mb-4 text-lg font-semibold text-center text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+    <%= err.message %>
+  </div>
 </div>
