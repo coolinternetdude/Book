@@ -43,8 +43,7 @@ app.route('/api/books/:id/edit')
     .get(catchAsyncErrors(renderEditForm));
 
 app.use((err, req, res, next) => {
-    const { statusCode = 500 } = err;
-    if (!err.message) err.message = "ERROR ! Something went wrong with the application";
+    const { statusCode = 500, message = "ERROR ! Something went wrong with the application" } = err;
     res.status(statusCode).render('books/error', { err });
 })
 
