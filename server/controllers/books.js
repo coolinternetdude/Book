@@ -7,7 +7,7 @@ export const getAllBooks = async (req, res) => {
     res.render('books/books.ejs', { books });
 }
 
-export const renderNewForm = (req, res) => {
+export const renderNewForm = async (req, res) => {
     res.render("books/new", { bookGenre, bookLanguage });
 }
 
