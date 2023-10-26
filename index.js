@@ -42,6 +42,11 @@ app.route('/api/books/:id')
 app.route('/api/books/:id/edit')
     .get(catchAsyncErrors(renderEditForm));
 
+
+app.all("*", (req, res, next) => {
+    next(new ExpressError("Page not found!!", 404));
+});
+
 app.use((err, req, res, next) => {
     const { statusCode = 500, message = "ERROR ! Something went wrong with the application" } = err;
     res.status(statusCode).render('books/error', { err });
