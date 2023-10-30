@@ -1,5 +1,6 @@
 
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
+import { Review } from './reviews.js';
 const Schema = mongoose.Schema;
 
 const bookSchema = new Schema({
@@ -15,10 +16,10 @@ const bookSchema = new Schema({
         type: Number,
         required: true
     },
-    // reviews: [{
-    //     type: Schema.Types.ObjectId,
-    //     ref: "Review"
-    // }],
+    reviews: [{
+        type: Schema.Types.ObjectId,
+        ref: "Review"
+    }],
     genre: {
         type: String,
         required: true,
@@ -32,6 +33,12 @@ const bookSchema = new Schema({
         type: String,
         required: true,
         enum: ["english", "french", "arabic"]
+    }
+});
+
+bookSchema.post("findOneAndDelete", async (book) => {
+    if(book.reviews.length) {
+        await Review.deleteMany({ _id: { $in: book.reviews } });
     }
 });
 

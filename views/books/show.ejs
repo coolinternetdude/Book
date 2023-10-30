@@ -1,23 +1,30 @@
 <% layout('./layouts//boilerplate') -%>
-<div class="max-w-screen-sm mx-auto py-10 px-5">
-  <h2 class="mb-10 text-center text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white">Show Book</h2>
+<div class="max-w-screen-lg mx-auto py-10 px-5 flex flex-wrap">
+  <h2 class="w-full mb-10 text-center text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white">Show Book</h2>
   
-  <div class="card mb-6">
-    <h5 class="mb-4 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><%= book.name %></h5>
-    <p class="mb-5 font-normal text-gray-700 dark:text-gray-400"><%= book.body %></p>
-
-    <div class="flex justify-end">
-      <div class="badge"><%= book.sales %></div>
-      <div class="badge"><%= book.genre %></div>
-      <div class="badge"><%= book.language %></div>
+  <div class="w-1/2 pr-5">
+    <div class="card mb-6">
+      <h5 class="mb-4 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><%= book.name %></h5>
+      <p class="mb-5 font-normal text-gray-700 dark:text-gray-400"><%= book.body %></p>
+  
+      <div class="flex justify-end">
+        <div class="badge"><%= book.sales %></div>
+        <div class="badge"><%= book.genre %></div>
+        <div class="badge"><%= book.language %></div>
+      </div>
+    </div>
+    
+    <div class="flex">
+      <a class="btn blue-btn" href="/api/books/<%= book.id %>/edit">Edit</a>
+      <form action="/api/books/<%= book.id %>?_method=DELETE" method="post">
+        <button class="btn red-btn" type="submit">Delete</button>
+      </form>
+      <a class="btn yellow-btn" href="/api/books/">All books</a>
     </div>
   </div>
-  
-  <div class="flex">
-    <a class="btn blue-btn" href="/api/books/<%= book.id %>/edit">Edit</a>
-    <form action="/api/books/<%= book.id %>?_method=DELETE" method="post">
-      <button class="btn red-btn" type="submit">Delete</button>
-    </form>
-    <a class="btn yellow-btn" href="/api/books/">All books</a>
+
+  <div class="w-1/2 pl-5">
+    <%- include('../reviews/new.ejs'); %>
+    <%- include('../reviews/reviews.ejs'); %>
   </div>
 </div>

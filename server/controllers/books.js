@@ -12,6 +12,8 @@ export const renderNewForm = async (req, res) => {
 }
 
 export const createBook = async (req, res) => {
+    if(!req.body.book)
+        throw new ExpressError("Invalid Book Data!", 400);
     const book = new Book(req.body.book);
     await book.save();
     res.redirect('/api/books');
@@ -19,7 +21,7 @@ export const createBook = async (req, res) => {
 
 export const showBook = async (req, res) => {
     const { id } = req.params;
-    const book = await Book.findById(id);
+    const book = await Book.findById(id).populate("reviews");
     if(!book) {
         throw new ExpressError("Book not found!", 404);
     }

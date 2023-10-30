@@ -2,10 +2,13 @@ import express from "express";
 import mongoose from "mongoose";
 import ejsMate from "ejs-mate";
 import { getAllBooks, renderNewForm, createBook, showBook, updateBook, deleteBook, renderEditForm } from "./server/controllers/books.js";
+import { createReview, deleteReview } from "./server/controllers/reviews.js";
 import methodOverride from 'method-override';
 import path from "path";
 import { fileURLToPath } from "url";
 import { catchAsyncErrors, ExpressError } from "./utils/expressError.js";
+import { Review } from "./server/models/reviews.js";
+import { Book } from "./server/models/books.js";
 
 
 const url = "mongodb://127.0.0.1:27017/booktest";
@@ -41,6 +44,12 @@ app.route('/api/books/:id')
     .delete(catchAsyncErrors(deleteBook));
 app.route('/api/books/:id/edit')
     .get(catchAsyncErrors(renderEditForm));
+
+// Review Routes:
+app.route("/api/books/:id/reviews")
+    .post(catchAsyncErrors(createReview))
+app.route("/api/books/:id/reviews/:id_review")
+    .delete(catchAsyncErrors(deleteReview));
 
 
 app.all("*", (req, res, next) => {

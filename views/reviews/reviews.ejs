@@ -1,0 +1,16 @@
+
+<div>
+    <!-- <h2 class="text-center font-extrabold mb-8 text-2xl mt-8">Reviews</h2> -->
+    <% book.reviews.forEach((review) => { %>
+        <div class="card">
+            <p><%= review.description %></p>
+            <div class="text-right mt-4">
+                <span class="badge">&#128197;&nbsp;<%= review.date.toLocaleDateString(); %></span>
+                <span class="badge">&#9733;&nbsp;<%= review.rating %></span>
+            </div>
+            <form action="/api/books/<%= book._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                <button class="btn red-btn text-[12px] font-normal m-0 py-1 px-2">Delete</button>
+            </form>
+        </div>
+    <% }); %>
+</div>
