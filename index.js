@@ -1,14 +1,12 @@
 import express from "express";
 import mongoose from "mongoose";
 import ejsMate from "ejs-mate";
-import { getAllBooks, renderNewForm, createBook, showBook, updateBook, deleteBook, renderEditForm } from "./server/controllers/books.js";
-import { createReview, deleteReview } from "./server/controllers/reviews.js";
 import methodOverride from 'method-override';
 import path from "path";
 import { fileURLToPath } from "url";
 import { catchAsyncErrors, ExpressError } from "./utils/expressError.js";
-import { Review } from "./server/models/reviews.js";
-import { Book } from "./server/models/books.js";
+import { bookRoutes } from "./server/routes/books.js";
+import { reviewRoutes } from "./server/routes/reviews.js";
 
 
 const url = "mongodb://127.0.0.1:27017/booktest";
@@ -32,24 +30,11 @@ app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// Book Routes:
-app.route('/api/books')
-    .get(catchAsyncErrors(getAllBooks));
-app.route('/api/books/new')
-    .get(catchAsyncErrors(renderNewForm))
-    .post(catchAsyncErrors(createBook));
-app.route('/api/books/:id')
-    .get(catchAsyncErrors(showBook))
-    .put(catchAsyncErrors(updateBook))
-    .delete(catchAsyncErrors(deleteBook));
-app.route('/api/books/:id/edit')
-    .get(catchAsyncErrors(renderEditForm));
+// Use Book Routes:
+app.use("/api/books", bookRoutes);
 
-// Review Routes:
-app.route("/api/books/:id/reviews")
-    .post(catchAsyncErrors(createReview))
-app.route("/api/books/:id/reviews/:id_review")
-    .delete(catchAsyncErrors(deleteReview));
+// Use Review Routes:
+app.use("/api/books/:id/reviews", reviewRoutes);
 
 
 app.all("*", (req, res, next) => {
@@ -59,7 +44,7 @@ app.all("*", (req, res, next) => {
 app.use((err, req, res, next) => {
     const { statusCode = 500, message = "ERROR ! Something went wrong with the application" } = err;
     res.status(statusCode).render('books/error', { err });
-})
+});
 
 app.listen(port, () => {
     console.log("Listening on port 8080!");
