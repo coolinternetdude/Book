@@ -15,6 +15,7 @@ export const createBook = async (req, res) => {
     if(!req.body.book)
         throw new ExpressError("Invalid Book Data!", 400);
     const book = new Book(req.body.book);
+    book.owner = req.user._id;
     await book.save();
 
     req.flash("success", "Book added successfully.");
@@ -23,7 +24,13 @@ export const createBook = async (req, res) => {
 
 export const showBook = async (req, res) => {
     const { id } = req.params;
-    const book = await Book.findById(id).populate("reviews");
+    const book = await Book.findById(id).populate({
+        path: "reviews",
+        populate: {
+            path: "author",
+        }
+    }).populate("owner");
+
     if(!book) {
         // throw new ExpressError("Book not found!", 404);
         req.flash("error", "Cannot find that Book!");
@@ -44,11 +51,11 @@ export const renderEditForm = async (req, res) => {
 }
 
 export const updateBook = async (req, res) => {
-    const id = req.params.id;
-    await Book.findByIdAndUpdate(id, req.body.book);
+    const { id } = req.params;
+    const book = await Book.findByIdAndUpdate(id, req.body.book);
 
     req.flash("success", "Book updated successfully.");
-    res.redirect(`/api/books/${id}`);
+    res.redirect(`/api/books/${book._id}`);
 }
 
 export const deleteBook = async (req, res) => {

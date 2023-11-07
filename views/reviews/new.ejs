@@ -1,5 +1,6 @@
 
-<div class="card">
+<% if(currentUser) { %>
+  <div class="card">
     <h2 class="text-center font-extrabold mb-8 text-2xl">New Review</h2>
     <form action="/api/books/<%= book.id %>/reviews" method="POST">
         <div class="relative mb-3">
@@ -15,4 +16,5 @@
           <button class="btn yellow-btn" type="reset">Reset</button>
         </div>
     </form>
-</div>
+  </div>
+<% } %>

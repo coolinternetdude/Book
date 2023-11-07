@@ -13,6 +13,7 @@ export const createReview = async (req, res) => {
     }
 
     const review = new Review(req.body.review);
+    review.author = req.user._id;
     book.reviews.push(review);
     await book.save();
     await review.save();

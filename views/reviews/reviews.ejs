@@ -1,16 +1,27 @@
 
 <div>
-    <!-- <h2 class="text-center font-extrabold mb-8 text-2xl mt-8">Reviews</h2> -->
-    <% book.reviews.forEach((review) => { %>
+    <% if(!book.reviews.length) { %>
+        <div class="text-center mb-4 rounded-lg bg-yellow-100 px-6 py-5 text-base text-yellow-700">
+            No reviews yet.
+        </div>
+    <% } else { book.reviews.forEach((review) => { %>
         <div class="card">
             <p><%= review.description %></p>
-            <div class="text-right mt-4">
-                <span class="badge">&#128197;&nbsp;<%= review.date.toLocaleDateString(); %></span>
-                <span class="badge">&#9733;&nbsp;<%= review.rating %></span>
+            <div class="flex justify-between my-4">
+                <div>
+                    <span class="text-sm">By:</span>
+                    <span class="badge ml-0"><%= review.author.username %></span>
+                </div>
+                <div>
+                    <span class="badge">&#128197;&nbsp;<%= review.date.toLocaleDateString(); %></span>
+                    <span class="badge">&#9733;&nbsp;<%= review.rating %></span>
+                </div>
             </div>
-            <form action="/api/books/<%= book._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
-                <button class="btn red-btn text-[12px] font-normal m-0 py-1 px-2">Delete</button>
-            </form>
+            <% if(currentUser && review.author.equals(currentUser)) { %>
+                <form action="/api/books/<%= book._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                    <button class="btn red-btn text-[12px] font-normal m-0 py-1 px-2">Delete</button>
+                </form>
+            <% } %>
         </div>
-    <% }); %>
+    <% }); } %>
 </div>

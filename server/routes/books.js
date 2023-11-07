@@ -2,16 +2,17 @@
 import express from "express";
 import { getAllBooks, renderNewForm, createBook, showBook, updateBook, deleteBook, renderEditForm } from "../controllers/books.js";
 import { catchAsyncErrors } from "../../utils/expressError.js";
+import { isLoggedIn, isOwner } from '../../middleware.js';
 export const bookRoutes = express.Router({ mergeParams: true });
 
-bookRoutes.route('/')
-    .get(catchAsyncErrors(getAllBooks));
+bookRoutes.route('/') 
+    .get(catchAsyncErrors(getAllBooks))
+    .post(isLoggedIn, catchAsyncErrors(createBook));
 bookRoutes.route('/new')
-    .get(catchAsyncErrors(renderNewForm))
-    .post(catchAsyncErrors(createBook));
+    .get(isLoggedIn, catchAsyncErrors(renderNewForm));
 bookRoutes.route('/:id')
     .get(catchAsyncErrors(showBook))
-    .put(catchAsyncErrors(updateBook))
-    .delete(catchAsyncErrors(deleteBook));
+    .put(isLoggedIn, isOwner, catchAsyncErrors(updateBook))
+    .delete(isLoggedIn, catchAsyncErrors(deleteBook));
 bookRoutes.route('/:id/edit')
-    .get(catchAsyncErrors(renderEditForm));
+    .get(isLoggedIn, isOwner, catchAsyncErrors(renderEditForm));

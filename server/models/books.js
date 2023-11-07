@@ -33,6 +33,10 @@ const bookSchema = new Schema({
         type: String,
         required: true,
         enum: ["english", "french", "arabic"]
+    },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
     }
 });
 

@@ -5,10 +5,14 @@ import methodOverride from 'method-override';
 import session from "express-session";
 import flash from "connect-flash";
 import path from "path";
+import passport from "passport";
+import localStrategy from "passport-local";
 import { fileURLToPath } from "url";
 import { catchAsyncErrors, ExpressError } from "./utils/expressError.js";
 import { bookRoutes } from "./server/routes/books.js";
 import { reviewRoutes } from "./server/routes/reviews.js";
+import { userRoutes } from "./server/routes/users.js";
+import { User } from "./server/models/users.js";
 
 
 const url = "mongodb://127.0.0.1:27017/booktest";
@@ -40,6 +44,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -48,8 +58,13 @@ app.set("views", path.join(__dirname, "views"));
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
+    res.locals.currentUser = req.user;
     next();
 });
+
+
+// Use User Routes:
+app.use("/", userRoutes);
 
 // Use Book Routes:
 app.use("/api/books", bookRoutes);
@@ -70,5 +85,3 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log("Listening on port 8080!");
 });
-
-
